@@ -7,6 +7,9 @@ import Footer from "../../components/Footer";
 import { Calendar, Clock, User, Phone, Mail, MessageSquare, ChevronRight, ChevronLeft, ChevronDown } from 'lucide-react';
 import ReactDatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
+import Link from 'next/link'
+
+
 
 
 const customDatePickerStyles = `
@@ -333,12 +336,35 @@ export default function BookAppointment() {
 {isSuccess && (
   <motion.div
     key="success"
-    initial={{ opacity: 0 }}
-    animate={{ opacity: 1 }}
-    className="space-y-6 text-center"
+    initial={{ opacity: 0, y: 20 }}
+    animate={{ opacity: 1, y: 0 }}
+    exit={{ opacity: 0, y: -20 }}
+    transition={{ duration: 0.5 }}
+    className="mt-8 p-6 bg-green-50 border border-green-200 rounded-2xl shadow-lg"
   >
-    <h2 className="text-3xl font-bold text-[#FFA500] mb-8">Appointment Submitted Successfully!</h2>
-    <p className="text-lg">Thank you for scheduling an appointment. You will be contacted soon!</p>
+    <motion.div
+      initial={{ scale: 0 }}
+      animate={{ scale: 1 }}
+      transition={{ delay: 0.2, type: "spring", stiffness: 200, damping: 10 }}
+      className="w-16 h-16 mx-auto mb-4 bg-green-100 rounded-full flex items-center justify-center"
+    >
+      <svg className="w-8 h-8 text-green-500" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 13l4 4L19 7" />
+      </svg>
+    </motion.div>
+    <h3 className="text-xl font-semibold text-green-800 mb-2">Appointment Request Submitted Successfully!</h3>
+    <p className="text-green-600 mb-6">Your appointment request has been submitted. Please proceed to payment to confirm.</p>
+    <div className="flex justify-center">
+            <Link
+              href="/payment"
+              className="inline-flex items-center justify-center bg-[#800000] text-white px-8 py-3 rounded-full text-lg font-semibold hover:bg-[#FFA500] transition-all duration-300 transform hover:scale-105 focus:outline-none focus:ring-2 focus:ring-[#800000] focus:ring-opacity-50"
+            >
+      <span>Proceed to Payment</span>
+      <svg className="w-5 h-5 ml-2" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M14 5l7 7m0 0l-7 7m7-7H3" />
+      </svg>
+    </Link>
+    </div>
   </motion.div>
 )}
 
