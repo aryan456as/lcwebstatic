@@ -50,7 +50,7 @@ const PaymentPage = () => {
           }
         }, 100);
       }
-    }, 450);
+    }, 470);
 
     return () => {
       document.head.removeChild(styleElement);
