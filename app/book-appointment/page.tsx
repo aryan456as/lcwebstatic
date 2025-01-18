@@ -351,21 +351,37 @@ export default function BookAppointment() {
       <svg className="w-8 h-8 text-green-500" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
         <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 13l4 4L19 7" />
       </svg>
-    </motion.div>
-    <h3 className="text-xl font-semibold text-green-800 mb-2">Appointment Request Submitted Successfully!</h3>
-    <p className="text-green-600 mb-6">Your appointment request has been submitted. Please proceed to payment to confirm.</p>
-    <div className="flex justify-center">
-            <Link
-              href="/payment"
-              className="inline-flex items-center justify-center bg-[#800000] text-white px-8 py-3 rounded-full text-lg font-semibold hover:bg-[#FFA500] transition-all duration-300 transform hover:scale-105 focus:outline-none focus:ring-2 focus:ring-[#800000] focus:ring-opacity-50"
-            >
+      <motion.div>
+  <h3 className="text-xl font-semibold text-green-800 mb-2">
+    Appointment Request Submitted Successfully!
+  </h3>
+  <p className="text-green-600 mb-6">
+    Your appointment request has been submitted. Please proceed to payment to confirm.
+  </p>
+  <div className="flex justify-center">
+    <Link
+      href="/payment"
+      className="inline-flex items-center justify-center bg-[#800000] text-white px-6 py-2 md:px-8 md:py-3 rounded-full text-sm md:text-lg font-semibold hover:bg-[#FFA500] transition-all duration-300 transform hover:scale-105 focus:outline-none focus:ring-2 focus:ring-[#800000] focus:ring-opacity-50"
+    >
       <span>Proceed to Payment</span>
-      <svg className="w-5 h-5 ml-2" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
-        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M14 5l7 7m0 0l-7 7m7-7H3" />
+      <svg
+        className="w-4 h-4 md:w-5 md:h-5 ml-2"
+        fill="none"
+        stroke="currentColor"
+        viewBox="0 0 24 24"
+        xmlns="http://www.w3.org/2000/svg"
+      >
+        <path
+          strokeLinecap="round"
+          strokeLinejoin="round"
+          strokeWidth={2}
+          d="M14 5l7 7m0 0l-7 7m7-7H3"
+        />
       </svg>
     </Link>
-    </div>
-  </motion.div>
+  </div>
+</motion.div>
+
 )}
 
                 </AnimatePresence>

@@ -1,34 +1,60 @@
 "use client"
 
-import { useEffect } from 'react';
-import Header from '../../components/Header'; // Adjust the import path as needed
-import Footer from '../../components/Footer'; // Adjust the import path as needed
+import { useEffect, useState } from 'react';
+import Header from '../../components/Header';
+import Footer from '../../components/Footer';
 import { motion } from 'framer-motion';
 import { CreditCard, Shield } from 'lucide-react';
+import PaymentButtonSkeleton from '../../components/PaymentButtonSkeleton';
 
 const PaymentPage = () => {
+  const [isLoading, setIsLoading] = useState(true);
+
   useEffect(() => {
     const styleElement = document.createElement('style');
     document.head.appendChild(styleElement);
     const Form = document.getElementById('donateForm');
 
-    // Load Razorpay Payment Button Script
+    let scriptLoaded = false;
+    let timer: NodeJS.Timeout;
+
     const existingScript = Form.querySelector(
-        "script[src='https://checkout.razorpay.com/v1/payment-button.js']"
-      );
-      if (!existingScript) {
-    const Script = document.createElement('script');
-    Script.setAttribute('src', 'https://checkout.razorpay.com/v1/payment-button.js');
-    Script.setAttribute('data-payment_button_id', 'pl_Pka1duLyl1ufbr'); // Replace with actual ID
+      "script[src='https://checkout.razorpay.com/v1/payment-button.js']"
+    );
 
+    if (!existingScript) {
+      const Script = document.createElement('script');
+      Script.setAttribute('src', 'https://checkout.razorpay.com/v1/payment-button.js');
+      Script.setAttribute('data-payment_button_id', 'pl_Pka1duLyl1ufbr');
+      Script.onload = () => {
+        scriptLoaded = true;
+      };
 
-    if (Form) {
-      Form.appendChild(Script);
-    }
+      if (Form) {
+        Form.appendChild(Script);
       }
-    // Cleanup function
+    } else {
+      scriptLoaded = true;
+    }
+
+    // Set a timer for 3 seconds
+    timer = setTimeout(() => {
+      if (scriptLoaded) {
+        setIsLoading(false);
+      } else {
+        // If script hasn't loaded yet, wait for it
+        const checkScriptLoaded = setInterval(() => {
+          if (scriptLoaded) {
+            clearInterval(checkScriptLoaded);
+            setIsLoading(false);
+          }
+        }, 100);
+      }
+    }, 450);
+
     return () => {
       document.head.removeChild(styleElement);
+      clearTimeout(timer);
     };
   }, []);
 
@@ -54,10 +80,14 @@ const PaymentPage = () => {
               </p>
             </div>
           </div>
+          <div className="min-h-[60px]">
           <form
             id="donateForm"
             className="w-full flex justify-center items-center"
-          ></form>
+          >
+            {isLoading && <PaymentButtonSkeleton />}
+          </form>
+          </div>
           <p className="mt-6 text-center text-sm text-gray-500">
             By proceeding, you agree to our <a href="#" className="text-[#800000] hover:underline">Terms of Service</a>
           </p>
@@ -66,6 +96,7 @@ const PaymentPage = () => {
       <Footer />
     </main>
   );
-};  
+};
 
 export default PaymentPage;
+
