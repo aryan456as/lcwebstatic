@@ -351,7 +351,7 @@ export default function BookAppointment() {
       <svg className="w-8 h-8 text-green-500" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
         <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 13l4 4L19 7" />
       </svg>
-      <motion.div>
+      </motion.div>
   <h3 className="text-xl font-semibold text-green-800 mb-2">
     Appointment Request Submitted Successfully!
   </h3>
