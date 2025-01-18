@@ -1,62 +1,65 @@
-"use client"
+"use client";
 
-import { useEffect, useState } from 'react';
-import Header from '../../components/Header';
-import Footer from '../../components/Footer';
-import { motion } from 'framer-motion';
-import { CreditCard, Shield } from 'lucide-react';
-import PaymentButtonSkeleton from '../../components/PaymentButtonSkeleton';
+import { useEffect, useState } from "react";
+import Header from "../../components/Header";
+import Footer from "../../components/Footer";
+import { motion } from "framer-motion";
+import { CreditCard, Shield } from "lucide-react";
+import PaymentButtonSkeleton from "../../components/PaymentButtonSkeleton";
 
 const PaymentPage = () => {
   const [isLoading, setIsLoading] = useState(true);
+  const [hasLoaded, setHasLoaded] = useState(false);
+  const [error, setError] = useState(false);  // New error state
+
 
   useEffect(() => {
-    const styleElement = document.createElement('style');
-    document.head.appendChild(styleElement);
-    const Form = document.getElementById('donateForm');
-
-    let scriptLoaded = false;
-    let timer: NodeJS.Timeout;
-
-    const existingScript = Form.querySelector(
-      "script[src='https://checkout.razorpay.com/v1/payment-button.js']"
-    );
-
-    if (!existingScript) {
-      const Script = document.createElement('script');
-      Script.setAttribute('src', 'https://checkout.razorpay.com/v1/payment-button.js');
-      Script.setAttribute('data-payment_button_id', 'pl_Pka1duLyl1ufbr');
-      Script.onload = () => {
-        scriptLoaded = true;
-      };
-
+    const loadRazorpayButton = () => {
+      const Form = document.getElementById("donateForm");
       if (Form) {
-        Form.appendChild(Script);
-      }
-    } else {
-      scriptLoaded = true;
-    }
+        // Check if script already exists
+        const existingScript = Form.querySelector(
+          "script[src='https://checkout.razorpay.com/v1/payment-button.js']"
+        );
 
-    // Set a timer for 3 seconds
-    timer = setTimeout(() => {
-      if (scriptLoaded) {
-        setIsLoading(false);
-      } else {
-        // If script hasn't loaded yet, wait for it
-        const checkScriptLoaded = setInterval(() => {
-          if (scriptLoaded) {
-            clearInterval(checkScriptLoaded);
-            setIsLoading(false);
-          }
-        }, 100);
+        if (!existingScript) {
+          const script = document.createElement("script");
+          script.src = "https://checkout.razorpay.com/v1/payment-button.js";
+          script.setAttribute("data-payment_button_id", "pl_Pka1duLyl1ufbr");
+
+          script.onload = () => {
+            setHasLoaded(true);  // Indicate that Razorpay button has loaded
+          };
+
+          Form.appendChild(script);
+        } else {
+          setHasLoaded(true);  // If the script is already there, we mark it as loaded
+        }
       }
-    }, 470);
+    };
+
+    // Show the skeleton for at least 2 seconds
+    const skeletonTimeout = setTimeout(() => {
+      setIsLoading(false);
+      setError(true);  // Show error after timeout
+
+    }, 9000); // Set 2-second delay
+
+    loadRazorpayButton();
 
     return () => {
-      document.head.removeChild(styleElement);
-      clearTimeout(timer);
+      clearTimeout(skeletonTimeout);  // Clean up timeout on component unmount
+      const script = document.querySelector(
+        "script[src='https://checkout.razorpay.com/v1/payment-button.js']"
+      );
+      if (script) script.remove();
     };
   }, []);
+  useEffect(() => {
+    if (hasLoaded) {
+      setIsLoading(false);  // Stop loading as soon as the button is loaded
+    }
+  }, [hasLoaded]);
 
   return (
     <main className="min-h-screen bg-gray-50">
@@ -80,16 +83,29 @@ const PaymentPage = () => {
               </p>
             </div>
           </div>
-          <div className="min-h-[60px]">
-          <form
-            id="donateForm"
-            className="w-full flex justify-center items-center"
-          >
-            {isLoading && <PaymentButtonSkeleton />}
-          </form>
+          <div className="min-h-[60px] relative">
+            {isLoading && !error && (
+              <div className="absolute inset-0 z-10 w-full flex justify-center items-center">
+                <PaymentButtonSkeleton />
+              </div>
+            )}
+            {error && !hasLoaded && (
+              <div className="absolute inset-0 z-10 w-full flex justify-center items-center">
+                <p className="text-red-500">Something went wrong, please refresh the page.</p>
+              </div>
+            )}
+            <form
+              id="donateForm"
+              className={`w-full flex justify-center items-center ${isLoading || !hasLoaded ? "opacity-0" : "opacity-100"}`}
+              style={{ height: "60px" }}  // Set a fixed height to match the skeleton height
+
+            />
           </div>
           <p className="mt-6 text-center text-sm text-gray-500">
-            By proceeding, you agree to our <a href="#" className="text-[#800000] hover:underline">Terms of Service</a>
+            By proceeding, you agree to our{" "}
+            <a href="#" className="text-[#800000] hover:underline">
+              Terms of Service
+            </a>
           </p>
         </motion.div>
       </section>
@@ -99,4 +115,3 @@ const PaymentPage = () => {
 };
 
 export default PaymentPage;
-
