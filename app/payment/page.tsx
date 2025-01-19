@@ -89,7 +89,7 @@ const PaymentPage = () => {
                initial={{ opacity: 1 }}
                animate={{ opacity: 0 }}
                exit={{ opacity: 0 }}
-               transition={{ duration: 0.9 }}
+               transition={{ duration: 0.5 }}
                className="absolute inset-0 z-10 w-full flex justify-center items-center" >
                 <PaymentButtonSkeleton />
                 </motion.div>
@@ -99,11 +99,14 @@ const PaymentPage = () => {
                 <p className="text-red-500">Something went wrong, please refresh the page.</p>
               </div>
             )}
-            <form
+             <motion.form
                 id="donateForm"
-              className={`w-full flex justify-center items-center ${isLoading || !hasLoaded ? "opacity-0" : "opacity-100"}`}
-              style={{ height: "60px" }}  // Set a fixed height to match the skeleton height
-            />
+                className="w-full flex justify-center items-center opacity-100"
+                style={{ height: "60px" }} // Matches skeleton height
+                initial={{ opacity: 0 }}
+                animate={{ opacity: 1 }}
+                transition={{ duration: 0.5 }}
+              />
           </div>
           <p className="mt-6 text-center text-sm text-gray-500">
             By proceeding, you agree to our{" "}
