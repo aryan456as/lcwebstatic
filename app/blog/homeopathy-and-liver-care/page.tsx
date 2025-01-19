@@ -42,15 +42,7 @@ export default function HomeopathyAndLiverCare() {
                   <li>Personalized treatment plans</li>
                 </ul>
 
-                <h2>Common Homeopathic Remedies</h2>
-                <p>Several homeopathic remedies are known to support liver health:</p>
-                <ul>
-                  <li>Chelidonium - for liver and gallbladder support</li>
-                  <li>Lycopodium - for digestive issues</li>
-                  <li>Nux Vomica - for overindulgence effects</li>
-                  <li>Phosphorus - for fatty liver conditions</li>
-                </ul>
-
+            
                 <h2>Treatment Approach</h2>
                 <p>Homeopathic treatment for liver conditions involves:</p>
                 <ol>

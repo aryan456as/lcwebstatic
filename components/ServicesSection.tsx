@@ -9,13 +9,24 @@ const services = [
     icon: <FiHeart className="text-4xl text-[#800000]" />,
     title: "Liver Health Assessment",
     description: "Comprehensive evaluation of your liver function through modern diagnosis.",
-    image: "/fibroscan.png"
+    image: "/fibroscan.png",
+    attribution: (
+      <p className="text-xs text-gray-400 mt-2">
+        Img Src:{' '}
+        <a href="https://www.researchgate.net/figure/A-patient-undergoing-TE-using-FibroScan-430-mini-Echosens-Paris-France-TE-median-of_fig2_325045071" target="_blank" rel="noopener noreferrer" className="text-[#800000]/50">
+          ResearchGate
+        </a>, Used under{' '}
+        <a href="https://creativecommons.org/licenses/by-nc/3.0/" target="_blank" rel="noopener noreferrer" className="text-[#800000]/50">
+          CC BY-NC 3.0.
+        </a>
+      </p>
+    ),
   },
   {
     icon: <FiActivity className="text-4xl text-[#800000]" />,
     title: "Homeopathic Treatment",
     description: "Natural and effective homeopathic treatments for various liver conditions.",
-    image: "/homeopathy.jpg"
+    image: "/homeopathy.webp"
   },
   {
     icon: <FiShield className="text-4xl text-[#800000]" />,
@@ -79,6 +90,7 @@ const ServicesSection = () => {
                 <div className="mb-4">{service.icon}</div>
                 <h3 className="text-xl font-semibold text-[#800000] mb-2">{service.title}</h3>
                 <p className="text-gray-600">{service.description}</p>
+                {service.attribution && <div className="mt-4">{service.attribution}</div>}
               </div>
             </motion.div>
           ))}
@@ -89,4 +101,3 @@ const ServicesSection = () => {
 }
 
 export default ServicesSection
-

@@ -85,20 +85,27 @@ const PaymentPage = () => {
           </div>
           <div className="min-h-[60px] relative">
             {isLoading && !error && (
-              <div className="absolute inset-0 z-10 w-full flex justify-center items-center">
+               <motion.div
+               initial={{ opacity: 1 }}
+               animate={{ opacity: 0 }}
+               exit={{ opacity: 0 }}
+               transition={{ duration: 0.9 }}
+               className="absolute inset-0 z-10 w-full flex justify-center items-center" >
                 <PaymentButtonSkeleton />
-              </div>
+                </motion.div>
             )}
             {error && !hasLoaded && (
               <div className="absolute inset-0 z-10 w-full flex justify-center items-center">
                 <p className="text-red-500">Something went wrong, please refresh the page.</p>
               </div>
             )}
-            <form
-              id="donateForm"
+            <motion.form
+                id="donateForm"
               className={`w-full flex justify-center items-center ${isLoading || !hasLoaded ? "opacity-0" : "opacity-100"}`}
               style={{ height: "60px" }}  // Set a fixed height to match the skeleton height
-
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1 }}
+              transition={{ duration: 0.5 }}
             />
           </div>
           <p className="mt-6 text-center text-sm text-gray-500">
